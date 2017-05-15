@@ -5,13 +5,9 @@ import com.weixin.common.AbstractParent;
 public class DeveloperFeedback implements AbstractParent {
 
     private Integer wid;
-
     private String signature;                               // 微信加密字签名
-
     private String timesTamp;                               // 微信反馈时间戳
-
     private String nonce;                                   // 微信反馈随机字符串
-
     private String echostr;                                 // 微信随机字符串
 
     public DeveloperFeedback() {
