@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 注解计时器 -->
+    <task:scheduler id="qbScheduler" pool-size="10"/>
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+    <context:component-scan base-package="com.weixin.task" />
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+
+
+
+    <!--<bean id="timeTaskFirst" class="com.weixin.task.TimerTaskFirst"/>
+
+    <context:component-scan base-package="com.weixin.task" />
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <context:annotation-config />-->
+    <!-- 在applicationContext.xml中进行配置，使用定时器
+        ref : pojo类的名称
+        method : 调用的方式名称
+        cron : cronExpression表达式
+        cron="0/5 * * * * ?"  //表示五秒钟执行一次
+     -->
+    <!--<task:scheduled-tasks>
+        <task:scheduled ref="timeTaskFirst" method="testJob" cron="0/5 * * * * ?"/>
+    </task:scheduled-tasks>-->
+
+</beans>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- 引入配置文件 -->
+    <properties resource="configuration.properties"/>
+
+    <!-- 数据库的数据源 -->
+    <context id="infoGuardian" targetRuntime="MyBatis3">
+        <commentGenerator >
+            <property name="suppressAllComments" value="true"/> <!-- 是否取消注释 -->
+            <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${dbcp.mysql.driver}"
+                        connectionURL="${dbcp.mysql.url}"
+                        userId="${dbcp.mysql.username}"
+                        password="${dbcp.mysql.password}" />
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="com.weixin.test.testPo"
+                            targetProject="src/main/java" >
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+
+        <!-- 生成mpper的xml文件 -->
+        <sqlMapGenerator targetPackage="com.weixin.test.testXmlMapper"
+                         targetProject="src/main/java" >
+            <!-- 同上 -->
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 生成mapper的接口类 -->
+        <javaClientGenerator targetPackage="com.weixin.test.testMapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER" >
+            <!-- 同上 -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- 配置表信息，这里每生成一张表的文件，这里需要改变一次对应表名 -->
+        <table schema="test"
+               tableName="w_developer_feedback"
+               domainObjectName="DeveloperFeedback"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false">
+
+            <!-- 是否不驼峰命名【true：结果为不驼峰 | false：结果驼峰】 -->
+            <property name="useActualColumnNames" value="false"/>
+            <!-- schema即为数据库名
+                tableName为对应的数据库表
+                domainObjectName是要生成的实体类
+                enable*ByExample
+                是否生成 example类
+            -->
+
+            <!-- 忽略列，不生成bean 字段
+            <ignoreColumn column="FRED" />-->
+            <!-- 指定列的java数据类型
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" /> -->
+        </table>
+    </context>
+
+</generatorConfiguration>
