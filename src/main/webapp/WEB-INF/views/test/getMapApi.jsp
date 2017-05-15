@@ -11,5 +11,6 @@
 
     <body>
         <p>您好这是手工测试页面</p>
+        <div class="baiduMap"></div>
     </body>
 </html>
