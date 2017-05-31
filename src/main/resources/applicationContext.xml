@@ -7,6 +7,11 @@
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:configuration.properties" />
+    </bean>
 
     <!-- 数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -24,13 +29,6 @@
         <property name="minIdle" value="${dbcp.mysql.minIdle}"></property>
         <!-- 获取连接最大等待时间 -->
         <property name="maxWait" value="${dbcp.mysql.maxWait}"></property>
-    </bean>
-
-
-    <!-- 引入配置文件 -->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:configuration.properties" />
     </bean>
 
 
@@ -61,6 +59,17 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+
+    <!-- 百度地图工具 -->
+    <bean id="baiduUtils" class="com.weixin.utils.BaiDuUtils">
+        <property name="output" value="${baiduMap.output}"/>
+        <property name="retCoordtype" value="${baiduMap.retCoordtype}"/>
+        <property name="ak" value="${baiduMap.ak}"/>
+        <property name="sk" value="${baiduMap.sk}"/>
+        <property name="callback" value="${baiduMap.callback}"/>
+    </bean>
+
 
     <!-- 其它工具xml引入START -->
     <import resource="wechat-configuration.xml"/>
