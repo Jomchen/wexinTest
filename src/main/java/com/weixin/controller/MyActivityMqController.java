@@ -1,9 +1,11 @@
 package com.weixin.controller;
 
 import com.weixin.service.QueueService;
+import com.weixin.service.TopicOneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,9 @@ public class MyActivityMqController {
 
     @Autowired
     private QueueService queueService;
+    @Autowired
+    @Qualifier("topicOneService")
+    private TopicOneService topicOneService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -27,30 +32,57 @@ public class MyActivityMqController {
      * 消息队列生产者
      * @return
      */
-    @RequestMapping(value = "/SendMessage", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendQueueMessage", method = RequestMethod.GET)
     @ResponseBody
-    public String SendMessage(String data) {
+    public String sendQueueMessage(String data) {
 
         data = (null == data ? String.valueOf(System.currentTimeMillis()) : data);
 
-        logger.info("【" + Thread.currentThread().getName() + "线程 发送到jms Start】。。。");
+        logger.info("【" + Thread.currentThread().getName() + "线程在控制层 向队列发送了信息 START】。。。");
         queueService.sendMessage("我在生产队列信息：" + data);
-        logger.info("【" + Thread.currentThread().getName() + "线程 发送到jms End】。。。");
-        return "send success";
+        logger.info("【" + Thread.currentThread().getName() + "线程在控制层 向队列发送了信息 END】。。。");
+        return "sendQueue success";
     }
-
-
     /**
      * 消息队列消费者
      * @return
      */
-    @RequestMapping(value = "/ReceiveMessage", method = RequestMethod.GET)
+    @RequestMapping(value = "/receiveQueueMessage", method = RequestMethod.GET)
     @ResponseBody
-    public String ReceiveMessage() {
-        logger.info("【" + Thread.currentThread().getName() + "线程 从jms消费 Start】。。。");
+    public String receiveQueueMessage() {
+        logger.info("【" + Thread.currentThread().getName() + "线程在控制层 向队列处理了信息 START】。。。");
         queueService.receive();
-        logger.info("【" + Thread.currentThread().getName() + "线程 从jms消费 End】。。。");
-        return "receive success";
+        logger.info("【" + Thread.currentThread().getName() + "线程在控制层 向队列处理了信息 End】。。。");
+        return "receiveQueue success";
+    }
+
+
+    /**
+     * 订阅模式信息生产者
+     * @param msg
+     * @return
+     */
+    @RequestMapping(value = "/sendTopicOneMessage", method = RequestMethod.GET)
+    @ResponseBody
+    public String sendTopicOneMessage(String msg) {
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 START");
+        topicOneService.sendMessage(msg);
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 END");
+        return "sendTopicOne success";
+    }
+
+    /**
+     * 订阅模式信息消费者
+     * @param msg
+     * @return
+     */
+    @RequestMapping(value = "/receiveTopicOneMessage", method = RequestMethod.GET)
+    @ResponseBody
+    public String receiveTopicOneMessage(String msg) {
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 START");
+        topicOneService.receive();
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 END");
+        return "receiveTopicOne success";
     }
 
 }

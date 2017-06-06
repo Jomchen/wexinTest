@@ -32,7 +32,7 @@ public class QueueServiceImpl implements QueueService {
 
 
     public void sendMessage(Destination destination, String msg) {
-        logger.warn(Thread.currentThread().getName() + "向队列" + destination.toString() + "发送了消息为：" + msg);
+        logger.warn(Thread.currentThread().getName() + "向队列发送了消息为：" + msg);
         jmsQueueTemplate.send(destination, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 /*ObjectMessage objectMessage = session.createObjectMessage();
@@ -55,7 +55,7 @@ public class QueueServiceImpl implements QueueService {
     public void sendMessage(String msg) {
 
         /*Destination destination = jmsTemplate.getDefaultDestination();*/
-
+        logger.warn(Thread.currentThread().getName() + "向队列发送了消息为：" + msg);
         jmsQueueTemplate.send(demoQueueDestination, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 /*Customer customer = new Customer(1, "李刚", 22, "北京", new Date());
@@ -78,13 +78,14 @@ public class QueueServiceImpl implements QueueService {
 
     public Message receive(Destination destination) {
 
+        logger.warn(Thread.currentThread().getName() + "向队列处理了消息为");
         MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(destination);
         try {
             String str = mapMessage.getString("data");
             Object obj = mapMessage.getObject("customer");
             logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
         } catch (JMSException e) {
-            logger.warn("接收参数出错了！！" + e.getMessage());
+            logger.warn("消费者获取参数出错了！！" + e.getMessage());
         }
 
         return mapMessage;
@@ -94,13 +95,14 @@ public class QueueServiceImpl implements QueueService {
     @Override
     public Message receive() {
 
+        logger.warn(Thread.currentThread().getName() + "向队列处理了消息为");
         MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(demoQueueDestination);
         try {
             String str = mapMessage.getString("data");
             Object obj = mapMessage.getObject("customer");
             logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
         } catch (JMSException e) {
-            logger.warn("接收参数出错了！！" + e.getMessage());
+            logger.warn("消费者获取参数出错了！！" + e.getMessage());
         }
 
         return mapMessage;
