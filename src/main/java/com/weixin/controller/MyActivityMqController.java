@@ -2,6 +2,7 @@ package com.weixin.controller;
 
 import com.weixin.service.QueueService;
 import com.weixin.service.TopicOneService;
+import com.weixin.service.TopicTwoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class MyActivityMqController {
     @Autowired
     @Qualifier("topicOneService")
     private TopicOneService topicOneService;
+    @Autowired
+    @Qualifier("topicTwoService")
+    private TopicTwoService topicTwoService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -58,31 +62,56 @@ public class MyActivityMqController {
 
 
     /**
-     * 订阅模式信息生产者
+     * 订阅模式 1 信息生产者
      * @param msg
      * @return
      */
     @RequestMapping(value = "/sendTopicOneMessage", method = RequestMethod.GET)
     @ResponseBody
     public String sendTopicOneMessage(String msg) {
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 START");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 START");
         topicOneService.sendMessage(msg);
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 END");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 END");
         return "sendTopicOne success";
     }
-
     /**
-     * 订阅模式信息消费者
+     * 订阅模式 1 信息消费者
      * @param msg
      * @return
      */
     @RequestMapping(value = "/receiveTopicOneMessage", method = RequestMethod.GET)
     @ResponseBody
     public String receiveTopicOneMessage(String msg) {
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 START");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 START");
         topicOneService.receive();
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式发送了消息 END");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 END");
         return "receiveTopicOne success";
+    }
+    /**
+     * 订阅模式 2 信息生产者
+     * @param msg
+     * @return
+     */
+    @RequestMapping(value = "/sendTopicTwoMessage", method = RequestMethod.GET)
+    @ResponseBody
+    public String sendTopicTwoMessage(String msg) {
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 START");
+        topicTwoService.sendMessage(msg);
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 END");
+        return "sendTopicTwo success";
+    }
+    /**
+     * 订阅模式 2 信息消费者
+     * @param msg
+     * @return
+     */
+    @RequestMapping(value = "/receiveTopicTwoMessage", method = RequestMethod.GET)
+    @ResponseBody
+    public String receiveTopicTwoMessage(String msg) {
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 START");
+        topicTwoService.receive();
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 END");
+        return "receiveTopicTwo success";
     }
 
 }
