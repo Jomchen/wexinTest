@@ -17,13 +17,16 @@
         http://activemq.apache.org/schema/core
         http://activemq.apache.org/schema/core/activemq-core-5.12.1.xsd">
 
+
     <context:component-scan base-package="com.weixin.common" />
     <mvc:annotation-driven />
+
 
     <amq:connectionFactory id="amqConnectionFactory"
                            brokerURL="tcp://localhost:61616"
                            userName="admin"
                            password="admin" />
+
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory"
@@ -33,22 +36,43 @@
         <property name="sessionCacheSize" value="100" />
     </bean>
 
-    <!-- 定义消息队列（Queue） -->
+
+    <!-- 定义消息队列(Queue)，定义订阅/发布模式(ActiveMQTopic) START -->
     <bean id="demoQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
             <value>Jaycekon</value>
         </constructor-arg>
     </bean>
+    <bean id="demoTopicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg>
+            <value>JaycekonTopic</value>
+        </constructor-arg>
+    </bean>
+    <!-- 定义消息队列(Queue)，定义订阅/发布模式(ActiveMQTopic) END -->
 
-    <!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+
+    <!-- Spring提供的JMS工具类，它发送、接收消息 -->
+    <!-- 配置JMS模板(Queue)，配置JMS模板(Topic) START -->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory" />
         <property name="defaultDestination" ref="demoQueueDestination" />
         <property name="receiveTimeout" value="10000" />
         <!-- true是topic，false是queue，默认是false，此处显示写出false -->
         <property name="pubSubDomain" value="false" />
     </bean>
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestination" ref="demoTopicDestination"/>
+        <property name="receiveTimeout" value="10000" />
+        <property name="pubSubDomain" value="true" />
+    </bean>
+    <!-- 配置JMS模板(Queue)，配置JMS模板(Topic) END -->
+
+
+
+
+
 
     <!-- 配置消息队列监听者(Queue) -->
     <!--<bean id="queueMessageListener" class="com.weixin.common.QueueMessageListener" />-->

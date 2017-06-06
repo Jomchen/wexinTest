@@ -18,7 +18,8 @@ import javax.jms.*;
 public class MyActivityMqServiceImpl implements MyActivityMqService {
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    @Qualifier("jmsQueueTemplate")
+    private JmsTemplate jmsQueueTemplate;
 
     /*父类接口应该写为Destination
     如果是点对点实现类为Queue，如果是订阅模式实现类则应该是Topic*/
@@ -31,7 +32,7 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
 
     public void sendMessage(Destination destination, String msg) {
         logger.warn(Thread.currentThread().getName() + "向队列" + destination.toString() + "发送了消息为：" + msg);
-        jmsTemplate.send(destination, new MessageCreator() {
+        jmsQueueTemplate.send(destination, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 /*ObjectMessage objectMessage = session.createObjectMessage();
                 objectMessage.setObject(customer);
@@ -53,7 +54,7 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
 
         /*Destination destination = jmsTemplate.getDefaultDestination();*/
 
-        jmsTemplate.send(demoQueueDestination, new MessageCreator() {
+        jmsQueueTemplate.send(demoQueueDestination, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 /*Customer customer = new Customer(1, "李刚", 22, "北京", new Date());
                 ObjectMessage objectMessage = session.createObjectMessage();
@@ -74,7 +75,7 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
 
     public Message receive(Destination destination) {
 
-        MapMessage mapMessage = (MapMessage)jmsTemplate.receive(destination);
+        MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(destination);
         try {
             Integer integer = (Integer)mapMessage.getObject("customer");
             logger.warn("【消息接收端处理消息为：" + integer + "】。。。");
@@ -89,7 +90,7 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
     @Override
     public Message receive() {
 
-        MapMessage mapMessage = (MapMessage)jmsTemplate.receive(demoQueueDestination);
+        MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(demoQueueDestination);
         try {
             Integer integer = (Integer)mapMessage.getObject("customer");
             logger.warn("【消息接收端处理消息为：" + integer + "】。。。");
