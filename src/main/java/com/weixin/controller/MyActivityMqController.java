@@ -82,9 +82,9 @@ public class MyActivityMqController {
     @RequestMapping(value = "/receiveTopicOneMessage", method = RequestMethod.GET)
     @ResponseBody
     public String receiveTopicOneMessage(String msg) {
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 START");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 处理消息 START");
         topicOneService.receive();
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 发送了消息 END");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 处理消息 END");
         return "receiveTopicOne success";
     }
     /**
@@ -108,9 +108,9 @@ public class MyActivityMqController {
     @RequestMapping(value = "/receiveTopicTwoMessage", method = RequestMethod.GET)
     @ResponseBody
     public String receiveTopicTwoMessage(String msg) {
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 START");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 处理消息 START");
         topicTwoService.receive();
-        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 发送了消息 END");
+        logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 处理消息 END");
         return "receiveTopicTwo success";
     }
 
