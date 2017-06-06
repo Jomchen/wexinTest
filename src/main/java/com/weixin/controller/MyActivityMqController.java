@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-
 /**
  * Created by zpc on 2017/5/2.
  * 消息队列的测试
