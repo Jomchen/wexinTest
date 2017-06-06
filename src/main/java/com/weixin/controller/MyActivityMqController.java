@@ -76,12 +76,11 @@ public class MyActivityMqController {
     }
     /**
      * 订阅模式 1 信息消费者
-     * @param msg
      * @return
      */
     @RequestMapping(value = "/receiveTopicOneMessage", method = RequestMethod.GET)
     @ResponseBody
-    public String receiveTopicOneMessage(String msg) {
+    public String receiveTopicOneMessage() {
         logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 处理消息 START");
         topicOneService.receive();
         logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 1 处理消息 END");
@@ -102,12 +101,11 @@ public class MyActivityMqController {
     }
     /**
      * 订阅模式 2 信息消费者
-     * @param msg
      * @return
      */
     @RequestMapping(value = "/receiveTopicTwoMessage", method = RequestMethod.GET)
     @ResponseBody
-    public String receiveTopicTwoMessage(String msg) {
+    public String receiveTopicTwoMessage() {
         logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 处理消息 START");
         topicTwoService.receive();
         logger.warn(Thread.currentThread().getName() + "线程在控制层 向订阅模式 2 处理消息 END");
