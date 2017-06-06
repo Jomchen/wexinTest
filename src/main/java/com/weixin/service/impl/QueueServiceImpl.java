@@ -1,6 +1,6 @@
 package com.weixin.service.impl;
 
-import com.weixin.service.MyActivityMqService;
+import com.weixin.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +14,19 @@ import javax.jms.*;
 /**
  * Created by zpc on 2017/5/9.
  */
-@Service("MyActivityMqService")
-public class MyActivityMqServiceImpl implements MyActivityMqService {
+@Service("queueService")
+public class QueueServiceImpl implements QueueService {
 
-    @Autowired
-    @Qualifier("jmsQueueTemplate")
-    private JmsTemplate jmsQueueTemplate;
-
-    /*父类接口应该写为Destination
-    如果是点对点实现类为Queue，如果是订阅模式实现类则应该是Topic*/
+    /*
+     * 父类接口应该写为Destination
+     * 如果是点对点实现类为Queue，如果是订阅模式实现类则应该是Topic
+     */
     @Autowired
     @Qualifier("demoQueueDestination")
     private Destination demoQueueDestination;
+    @Autowired
+    @Qualifier("jmsQueueTemplate")
+    private JmsTemplate jmsQueueTemplate;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -39,11 +40,12 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
                 return objectMessage;*/
 
                 /*TextMessage textMessage = session.createTextMessage(msg);
-                return textMessage;*/
+                textMessage.setStringProperty("head", "这是标题");
+                textMessage.setText("这是设置内容");*/
 
                 MapMessage mapMessage = session.createMapMessage();
                 mapMessage.setObject("customer", new Integer(3));
-                mapMessage.setString("key", "cus");
+                mapMessage.setString("data", msg);
                 return mapMessage;
             }
         });
@@ -62,11 +64,12 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
                 return objectMessage;*/
 
                 /*TextMessage textMessage = session.createTextMessage(msg);
-                return textMessage;*/
+                textMessage.setStringProperty("head", "这是标题");
+                textMessage.setText("这是设置内容");*/
 
                 MapMessage mapMessage = session.createMapMessage();
                 mapMessage.setObject("customer", new Integer(3));
-                mapMessage.setString("key", "cus");
+                mapMessage.setString("data", msg);
                 return mapMessage;
             }
         });
@@ -77,8 +80,9 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
 
         MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(destination);
         try {
-            Integer integer = (Integer)mapMessage.getObject("customer");
-            logger.warn("【消息接收端处理消息为：" + integer + "】。。。");
+            String str = mapMessage.getString("data");
+            Object obj = mapMessage.getObject("customer");
+            logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
         } catch (JMSException e) {
             logger.warn("接收参数出错了！！" + e.getMessage());
         }
@@ -92,8 +96,9 @@ public class MyActivityMqServiceImpl implements MyActivityMqService {
 
         MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(demoQueueDestination);
         try {
-            Integer integer = (Integer)mapMessage.getObject("customer");
-            logger.warn("【消息接收端处理消息为：" + integer + "】。。。");
+            String str = mapMessage.getString("data");
+            Object obj = mapMessage.getObject("customer");
+            logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
         } catch (JMSException e) {
             logger.warn("接收参数出错了！！" + e.getMessage());
         }

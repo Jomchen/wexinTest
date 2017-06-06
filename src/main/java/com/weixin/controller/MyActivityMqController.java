@@ -1,6 +1,6 @@
 package com.weixin.controller;
 
-import com.weixin.service.MyActivityMqService;
+import com.weixin.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 
 /**
@@ -20,7 +21,7 @@ import javax.jms.Message;
 public class MyActivityMqController {
 
     @Autowired
-    private MyActivityMqService myActivityMqService;
+    private QueueService queueService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -36,7 +37,7 @@ public class MyActivityMqController {
         data = (null == data ? String.valueOf(System.currentTimeMillis()) : data);
 
         logger.info("【" + Thread.currentThread().getName() + "线程 发送到jms Start】。。。");
-        myActivityMqService.sendMessage("我在生产队列信息：" + data);
+        queueService.sendMessage("我在生产队列信息：" + data);
         logger.info("【" + Thread.currentThread().getName() + "线程 发送到jms End】。。。");
         return "send success";
     }
@@ -50,8 +51,7 @@ public class MyActivityMqController {
     @ResponseBody
     public String ReceiveMessage() {
         logger.info("【" + Thread.currentThread().getName() + "线程 从jms消费 Start】。。。");
-        Message message = myActivityMqService.receive();
-        logger.warn("处理的消息为：" + message);
+        queueService.receive();
         logger.info("【" + Thread.currentThread().getName() + "线程 从jms消费 End】。。。");
         return "receive success";
     }

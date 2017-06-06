@@ -6,7 +6,7 @@ import javax.jms.Message;
 /**
  * Created by zpc on 2017/5/9.
  */
-public interface MyActivityMqService {
+public interface QueueService {
 
     void sendMessage(final Destination destination, final String msg);
     void sendMessage(final String msg);
