@@ -1,6 +1,10 @@
 package com.weixin.test;
 
+import com.weixin.entity.ColorEnum;
+
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by zpc on 2017/5/25.
@@ -8,14 +12,9 @@ import java.util.*;
 public class WeChatTest2 {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        List<String> list2 = null;
-        for (String s : list2) {
-            System.out.println(s);
-        }
 
-        Deque<String> deque = new ArrayDeque<>();
-        Queue<String> deque2 = new PriorityQueue();
+        // HashSet LinkedHashSet EnumSet TreeSet
+
 
     }
 
