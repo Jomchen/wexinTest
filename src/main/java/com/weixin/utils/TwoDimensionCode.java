@@ -28,16 +28,15 @@ public class TwoDimensionCode {
      */
     public static void toImage(String content, OutputStream outputStream, Integer width, Integer height) {
 
+        String text = content;
         if (null == width) { width = 100; }
         if (null == height) { height = 100; }
 
-        String text = content;
         String format = "JPG";
         Hashtable hints= new Hashtable();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        BitMatrix bitMatrix;
         try {
-            bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height,hints);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
             MatrixToImageWriter.writeToStream(bitMatrix, format, outputStream);
         } catch (WriterException e) {
             logger.warn("【生成二维码失败。。。。。。】");
