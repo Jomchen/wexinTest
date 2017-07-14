@@ -20,30 +20,62 @@ public class TwoDimensionCode {
 
     private static Logger logger = LoggerFactory.getLogger(TwoDimensionCode.class);
 
+    public static Integer PIC_WIDTH = 100;
+
+    public static Integer PIC_HEIGHT = 100;
+
+    public enum PicTypeEnum {
+        PNG("PNG"),
+        JPG("JPG");
+
+        String picType;
+        PicTypeEnum(String picType) {
+            this.picType = picType;
+        }
+
+        public String getPicTypeName() {
+            return this.picType;
+        }
+    }
+
 
     /**
-     * 二维码生成器
-     * @param content
-     * @param outputStream
+     * 二维码生成嚣
+     * @param content [ 二维码的内容 ]
+     * @param width [ 图片宽度 ]
+     * @param height [ 图片高度 ]
+     * @param outputStream [ 二维码输出流 ]
      */
-    public static void toImage(String content, OutputStream outputStream, Integer width, Integer height) {
+    public static void toImage(
+            String content,
+            Integer width,
+            Integer height,
+            PicTypeEnum picTypeEnum,
+            OutputStream outputStream) {
 
-        String text = content;
-        if (null == width) { width = 100; }
-        if (null == height) { height = 100; }
+        if (null == width || width <= 0) {
+            width = TwoDimensionCode.PIC_WIDTH;
+        }
+        if (null == height || height <= 0) {
+            height = TwoDimensionCode.PIC_HEIGHT;
+        }
+        if (null == picTypeEnum) {
+            picTypeEnum = PicTypeEnum.JPG;
+        }
 
-        String format = "JPG";
         Hashtable hints= new Hashtable();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        BitMatrix bitMatrix;
+
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
-            MatrixToImageWriter.writeToStream(bitMatrix, format, outputStream);
+            bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+            MatrixToImageWriter.writeToStream(bitMatrix, picTypeEnum.getPicTypeName(), outputStream);
         } catch (WriterException e) {
             logger.warn("【生成二维码失败。。。。。。】");
             e.printStackTrace();
         } catch ( IOException e ) {
-            logger.warn("【生成二维码失败。。。。。。】");
             e.printStackTrace();
+            logger.warn("【生成二维码失败。。。。。。】");
         }
     }
 
