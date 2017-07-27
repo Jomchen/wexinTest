@@ -295,6 +295,15 @@
         </dependency>
         <!-- JSON Gson END -->
 
+        <!-- redis 依赖 START -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <!-- rdis 依赖 END -->
+
+
     </dependencies>
 
 
