@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface CustomerMapper {
 
-    Customer getCustomerById(Integer cid);
+    Customer getCustomerById(Integer tid);
 
     Integer insert(Customer customer);
 
