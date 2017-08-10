@@ -5,20 +5,22 @@
 
 <mapper namespace="com.weixin.mapper.CustomerMapper">
 
-    <select id="getCustomerById" parameterType="java.lang.Integer" resultType="com.weixin.entity.Customer">
-        SELECT * FROM customer WHERE customer.cid = #{getCustomerById, jdbcType=INTEGER}
+    <select id="getCustomerById" parameterType="java.lang.Long" resultType="com.weixin.entity.Customer">
+        SELECT * FROM customer WHERE customer.tid = #{tid, jdbcType=BIGINT}
     </select>
 
-    <insert id="insert" parameterType="com.weixin.entity.Customer" useGeneratedKeys="true" keyProperty="cid">
+    <insert id="insert" parameterType="com.weixin.entity.Customer" useGeneratedKeys="true" keyProperty="tid">
         INSERT INTO customer(
-          cname,
-          age,
-          address,
+          cname ,
+          age ,
+          address ,
+          class_id ,
           birthday
         ) VALUES (
-              #{cname, jdbcType=VARCHAR},
-              #{age, jdbcType=INTEGER},
-              #{address, jdbcType=VARCHAR},
+              #{cname, jdbcType=VARCHAR} ,
+              #{age, jdbcType=INTEGER} ,
+              #{address, jdbcType=VARCHAR} ,
+              #{classId, jdbcType=BIGINT} ,
               #{birthday, jdbcType=TIMESTAMP}
         )
     </insert>
@@ -26,24 +28,27 @@
     <update id="update" parameterType="com.weixin.entity.Customer">
         UPDATE customer
         SET
-            cname = #{cname, jdbcType=VARCHAR},
-            age = #{age, jdbcType=INTEGER},
-            address = #{address, jdbcType=VARCHAR},
+            cname = #{cname, jdbcType=VARCHAR} ,
+            age = #{age, jdbcType=INTEGER} ,
+            address = #{address, jdbcType=VARCHAR} ,
+            class_id = #{classId, jdbcType=BIGINT} ,
             birthday = #{birthday, jdbcType=TIMESTAMP}
-        WHERE cid = #{cid , jdbcType=INTEGER}
+        WHERE tid = #{tid , jdbcType=BIGINT}
     </update>
 
     <insert id="insertList" parameterType="java.util.List">
         INSERT INTO customer(
-          cname,
-          age,
-          address,
+          cname ,
+          age ,
+          address ,
+          class_id ,
           birthday
         ) VALUES (
           <foreach collection="list" item="dataList" separator="),(">
-              #{dataList.cname, jdbcType=VARCHAR},
-              #{dataList.age, jdbcType=INTEGER},
-              #{dataList.address, jdbcType=VARCHAR},
+              #{dataList.cname, jdbcType=VARCHAR} ,
+              #{dataList.age, jdbcType=INTEGER} ,
+              #{dataList.address, jdbcType=VARCHAR} ,
+              #{classId, jdbcType=BIGINT} ,
               #{dataList.birthday, jdbcType=TIMESTAMP}
           </foreach>
         )
@@ -56,10 +61,11 @@
     <select id="testMapString" parameterType="map" resultType="com.weixin.entity.Customer">
         SELECT * FROM customer
         <where>
-          <if test="null != cid and '' != cid">AND cid = #{cid, jdbcType=INTEGER}</if>
+          <if test="null != tid and '' != tid">AND tid = #{tid, jdbcType=BIGINT}</if>
           <if test="null != cname and '' != cname">AND cname = #{cname, jdbcType=VARCHAR}</if>
           <if test="null != age and '' != age">AND age = #{age, jdbcType=INTEGER}</if>
           <if test="null != address and '' != address">AND address = #{address, jdbcType=VARCHAR}</if>
+          <if test="null != classId and '' != classId">AND class_id = #{classId, jdbcType=BIGINT}</if>
           <if test="null != birthday and '' != birthday">AND birthday = #{birthday, jdbcType=TIMESTAMP}</if>
         </where>
     </select>
