@@ -26,6 +26,15 @@ public class TestController {
     @Autowired
     private TestService testService;
 
+    @RequestMapping(value = "/allTest", method = RequestMethod.GET)
+    @ResponseBody
+    public String allTest() {
+        ResultObj resultObj = new ResultObj();
+        resultObj.setCode(ResultObj.RESULT_SUCCESS);
+        resultObj.setMsg("I love Linux");
+        return resultObj.toJson();
+    }
+
 
     @RequestMapping(value = "/getMapApi", method = RequestMethod.GET)
     public ModelAndView getMapApi() {
