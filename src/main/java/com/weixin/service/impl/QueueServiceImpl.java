@@ -39,14 +39,14 @@ public class QueueServiceImpl implements QueueService {
                 objectMessage.setObject(customer);
                 return objectMessage;*/
 
-                /*TextMessage textMessage = session.createTextMessage(msg);
+                TextMessage textMessage = session.createTextMessage(msg);
                 textMessage.setStringProperty("head", "这是标题");
-                textMessage.setText("这是设置内容");*/
+                textMessage.setText("这是设置内容");
 
-                MapMessage mapMessage = session.createMapMessage();
+                /*MapMessage mapMessage = session.createMapMessage();
                 mapMessage.setObject("customer", new Integer(3));
-                mapMessage.setString("data", msg);
-                return mapMessage;
+                mapMessage.setString("data", msg);*/
+                return textMessage;
             }
         });
     }
@@ -63,14 +63,14 @@ public class QueueServiceImpl implements QueueService {
                 objectMessage.setObject(customer);
                 return objectMessage;*/
 
-                /*TextMessage textMessage = session.createTextMessage(msg);
+                TextMessage textMessage = session.createTextMessage(msg);
                 textMessage.setStringProperty("head", "这是标题");
-                textMessage.setText("这是设置内容");*/
+                textMessage.setText("这是设置内容");
 
-                MapMessage mapMessage = session.createMapMessage();
+                /*MapMessage mapMessage = session.createMapMessage();
                 mapMessage.setObject("customer", new Integer(3));
-                mapMessage.setString("data", msg);
-                return mapMessage;
+                mapMessage.setString("data", msg);*/
+                return textMessage;
             }
         });
     }
@@ -79,16 +79,18 @@ public class QueueServiceImpl implements QueueService {
     public Message receive(Destination destination) {
 
         logger.warn(Thread.currentThread().getName() + "向队列处理了消息为");
-        MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(destination);
+        TextMessage textMessage = (TextMessage)jmsQueueTemplate.receive(destination);
         try {
-            String str = mapMessage.getString("data");
-            Object obj = mapMessage.getObject("customer");
-            logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
+            String sub = textMessage.getStringProperty("head");
+            String tex = textMessage.getText();
+            /*String str = mapMessage.getString("data");
+            Object obj = mapMessage.getObject("customer");*/
+            logger.warn("【消息接收端处理消息为：" + sub + "----" + tex + "】。。。");
         } catch (JMSException e) {
             logger.warn("消费者获取参数出错了！！" + e.getMessage());
         }
 
-        return mapMessage;
+        return textMessage;
     }
 
 
@@ -96,16 +98,18 @@ public class QueueServiceImpl implements QueueService {
     public Message receive() {
 
         logger.warn(Thread.currentThread().getName() + "向队列处理了消息为");
-        MapMessage mapMessage = (MapMessage)jmsQueueTemplate.receive(demoQueueDestination);
+        TextMessage textMessage = (TextMessage)jmsQueueTemplate.receive(demoQueueDestination);
         try {
-            String str = mapMessage.getString("data");
-            Object obj = mapMessage.getObject("customer");
-            logger.warn("【消息接收端处理消息为：" + str + "----" + obj + "】。。。");
+            String sub = textMessage.getStringProperty("head");
+            String tex = textMessage.getText();
+            /*String str = mapMessage.getString("data");
+            Object obj = mapMessage.getObject("customer");*/
+            logger.warn("【消息接收端处理消息为：" + sub + "----" + tex + "】。。。");
         } catch (JMSException e) {
             logger.warn("消费者获取参数出错了！！" + e.getMessage());
         }
 
-        return mapMessage;
+        return textMessage;
     }
 
 }
