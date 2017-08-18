@@ -19,7 +19,7 @@ public class QueueMessageListener implements MessageListener {
         TextMessage textMessage = (TextMessage)message;
         try {
             String msg = textMessage.getText();
-            logger.warn("【监听到了信息：" + msg + "】");
+            logger.warn("监听到了信息：" + msg);
         } catch (JMSException e) {
             e.printStackTrace();
         }

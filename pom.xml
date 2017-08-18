@@ -303,6 +303,13 @@
         </dependency>
         <!-- rdis 依赖 END -->
 
+        <!-- lucene START -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <!-- lucene END -->
 
     </dependencies>
 

@@ -66,9 +66,17 @@
 
     <!-- 定义Queue监听器 -->
     <bean id="queueMessageListener" class="com.weixin.common.QueueMessageListener"/>
-    <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="test.queue" ref="queueMessageListener"/>
-    </jms:listener-container>
+
+    <!-- 消息监听  -->
+    <bean id="listenerContainer"
+          class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <!-- 消息监听器输出消息的数量 -->
+        <property name="concurrentConsumers" value="1" />
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destinationName" value="Jaycekon" />
+        <property name="messageListener" ref="queueMessageListener" />
+        <property name="pubSubNoLocal" value="false"></property>
+    </bean>
 
     <!-- 定义Topic监听器 -->
 <!--
