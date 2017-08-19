@@ -75,7 +75,7 @@ public class BaiDuUtils {
             throw new MyRunTimeExcption("没有传入地理位置");
         }
 
-        TreeMap<String, String> treeMap = new TreeMap<>();
+        TreeMap<String, String> treeMap = new TreeMap<String, String>();
         if (!StringUtils.isBlank(city)) {
             treeMap.put("city", city);
         }
@@ -215,7 +215,7 @@ public class BaiDuUtils {
      */
     public Map<String, String> getCoordinate(String address, String city) {
 
-        Map<String, String> resultMap = new HashMap<>();
+        Map<String, String> resultMap = new HashMap<String, String>();
 
         try {
             String mapData = getLatitudeAndLongitudeByAddress(address, city, null, null);

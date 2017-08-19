@@ -16,7 +16,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Map<String, String> getMapApi(String jing, String wei) {
-        Map<String, String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("ip", "111.10.118.26");
         paramMap.put("ak", "vbpBKznEa5Ldgmh1bOEzFt1pSNEO5YGi");
         paramMap.put("coor", "gcj02");

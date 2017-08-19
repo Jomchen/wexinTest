@@ -3,10 +3,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>allTest</title>
+        <title>allPage00</title>
     </head>
 
     <body>
-        <div>allTest</div>
+        <div>allPage00</div>
     </body>
 </html>
