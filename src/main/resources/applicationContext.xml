@@ -75,7 +75,7 @@
     <import resource="wechat-configuration.xml"/>
     <import resource="file-upload.xml"/>
     <!--<import resource="time-task.xml"/>-->
-    <import resource="spring-activityMq.xml"/>
+    <import resource="spring-jms.xml"/>
     <!-- 其它工具xml引入END -->
 
 

@@ -1,4 +1,4 @@
-package com.weixin.testEntity;
+package com.weixin.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.realm.Realm;
@@ -15,9 +15,11 @@ public class MapRealm implements Realm {
 
     static {
         realmMap = new HashMap<>();
-        realmMap.put("Jomchen", "123");
-        realmMap.put("Kangkang", "12");
-        realmMap.put("Jane", "1");
+        realmMap.put("map00", "map00");
+        realmMap.put("map01", "map01");
+        realmMap.put("map02", "map02");
+        realmMap.put("Jomchen", "Jomchen");
+        realmMap.put("Kangkang", "Kangkang");
     }
 
     @Override
@@ -36,10 +38,10 @@ public class MapRealm implements Realm {
         String password = new String((char[])authenticationToken.getCredentials());
 
         if (!realmMap.containsKey(username)) {
-            throw new UnknownAccountException("验证：用户存在");
+            throw new UnknownAccountException("MAP验证：用户不存在");
         }
         if (!realmMap.get(username).equals(password)) {
-            throw new IncorrectCredentialsException("验证：密码错误");
+            throw new IncorrectCredentialsException("MAP验证：密码错误");
         }
 
         return new SimpleAuthenticationInfo(username, password, getName());

@@ -7,7 +7,7 @@
 
     <display-name>Archetype Created Web Application</display-name>
 
-    <!-- shiro 过滤-->
+    <!-- shiro 过滤 START -->
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>
@@ -25,6 +25,7 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
+    <!-- shiro 过滤 END -->
 
     <!-- 编码过滤器 -->
     <filter>
