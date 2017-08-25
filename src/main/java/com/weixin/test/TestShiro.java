@@ -28,6 +28,7 @@ public class TestShiro {
 
         try {
             subject.login(usernamePasswordToken);
+            System.out.println(subject.isPermitted("classroom:dd"));
         } catch(UnknownAccountException e) {
             System.out.println("测试：用户名不存在");
             throw e;
